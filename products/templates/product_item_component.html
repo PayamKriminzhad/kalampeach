@@ -1,0 +1,29 @@
+<div class="product-item {% for x in product.categories.all %}{{x.name}} {% endfor %}" href="">
+    <div class="product discount product_filter">
+        <div class="product_image">
+            <img src="{{product.image.url}}" alt="">
+        </div>
+
+        <form action="{% if not is_liked %}/add-user-like{% endif %} {% if is_liked %}/remove-user-like{% endif %}" method="post">{% csrf_token %}{{like_form.product}}<button type="submit"><div class="favorite {% if is_new %}favorite_left{% endif %} {% if is_liked %}active{% endif %}"></div></button></form>
+
+        {% if product.discount > 0 %}
+        <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-{{product.get_discount}}%</span></div>
+        {% endif %}
+        {% if is_new %}
+        <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>جدید</span></div>
+        {% endif %}
+        <div class="product_info">
+            <h6 class="product_name"><a href="{{product.get_absolute_url}}">{{product.title}}</a></h6>
+            <div class="product_price dir_rtl">{{product.final_price}} تومان {% if product.discount > 0 %}<span>{{product.price}} تومان</span>{% endif %}</div>
+        </div>
+    </div>
+    <form action="/add-user-order" method="post" id="456123">
+        <div class="red_button add_to_cart_button">
+            {% csrf_token %}
+            {{form.product_id}}
+            {{form.count}}
+            <button class="btn red_button"type="submit"><a class="text-white">اضافه کردن به سبد خرید</a></button>
+            {% comment %} <a onclick="document.getElementById('456123').submit()">اضافه کردن به سبد خرید</a> {% endcomment %}
+        </div>
+    </form>
+</div>

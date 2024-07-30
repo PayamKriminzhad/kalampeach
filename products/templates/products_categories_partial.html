@@ -1,0 +1,8 @@
+<div class="sidebar_title">
+    <h5>دسته بندی محصولات</h5>
+</div>
+<ul class="sidebar_categories">
+    {% for category in categories %}
+    <li class="{% if url == category.get_url %}active{% endif %}"><a href="/products/{{category.name}}">{{category.title}}</a></li>
+    {% endfor %}
+</ul>

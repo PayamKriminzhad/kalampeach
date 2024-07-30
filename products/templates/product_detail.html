@@ -1,0 +1,364 @@
+{% extends 'shared/_Mainlayout.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block refrence_header %}
+<title>شماره {{product.id}}</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Colo Shop Template">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/themify-icons/themify-icons.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/jquery-ui-1.12.1.custom/jquery-ui.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/single_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/single_responsive.css' %}">
+<link rel="stylesheet" href="{% static 'styles/custom.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container single_product_container">
+    {% for message in messages %}
+    <div class="alert {{message.tags}}">{{message}}</div>
+    {% endfor %}
+
+    <div class="row dir_rtl">
+        <div class="col">
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li><a href="/products">محصولات</a></li>
+                    <li><a href="/products/{{category.name}}"><i class="fa fa-angle-left" aria-hidden="true"></i>{{category.title}}</a></li>
+                    <li class="active"><a href="#"><i class="fa fa-angle-left" aria-hidden="true"></i>{{product.title}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row dir_rtl">
+        <div class="col-lg-7">
+            <div class="single_product_pics">
+                <div class="row">
+                    <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
+                        <div class="single_product_thumbnails">
+                            <ul>
+                                <li class="active"><img src="{{product.image.url}}" alt="" data-image="{{product.image.url}}"></li>
+                                {% for photo_list in gallery %}
+                                {% for photo in photo_list %}
+                                <li><img src="{{photo.image.url}}" alt="" data-image="{{photo.image.url}}"></li>
+                                {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 image_col order-lg-2 order-1">
+                        <div class="single_product_image">
+                            <div class="single_product_image_background" style="background-image:url({{product.image.url}})"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="product_details">
+                <div class="product_details_title">
+                    <h2>{{product.title}}</h2>
+                    <p>{{product.description}} </p>
+                </div>
+                <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
+                    <span class="ti-truck"></span><span>تحویل سریع</span>
+                </div>
+                <div class="original_price">{% if product.discount > 0 %}{{product.price}} تومان{% endif %}</div>
+                <div class="product_price">{{product.final_price}} تومان</div>
+                <ul class="star_rating">
+                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                </ul>
+                {% comment %} <div class="product_color">
+                    <span>انتخاب رنگ</span>
+                    <ul>
+                        <li style="background: #e54e5d"></li>
+                        <li style="background: #252525"></li>
+                        <li style="background: #60b3f3"></li>
+                    </ul>
+                </div> {% endcomment %}
+                <form action="/add-user-order" method="post" id="kolang">
+                {% csrf_token %}
+                {{orderform.product_id}}
+                {{orderform.count}}
+                <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+                        <span>تعداد:</span>
+                        <div class="quantity_selector">
+                            <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                            {% comment %} <span id="quantity_value">{{orderform.count}}</span> {% endcomment %}
+                            {% comment %} <input id="kobs_tracker" type="hidden"></input> {% endcomment %}
+                            <span readonly id="quantity_value" >1</span>
+                            <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="red_button add_to_cart_button"><button id="review_submit" type="submit" class="red_button review_submit_btn trans_300">افزودن به سبد خرید</button></div>
+                </form>
+                    {% if request.user.is_authenticated %}
+                        <form action="{% if not liked %}/add-user-like{% endif %} {% if liked %}/remove-user-like{% endif %}" method="post">{% csrf_token %}{{like_form.product}}
+                            <button class="product_favorite d-flex flex-column align-items-center justify-content-center {% if liked %}active{% endif %}"></button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Tabs -->
+
+<div class="tabs_section_container">
+
+    <div class="container">
+        <div class="row dir_rtl">
+            <div class="col">
+                <div class="tabs_container">
+                    <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+                        <li class="tab active" data-active-tab="tab_1"><span>محصولات مرتبط</span></li>
+                        <li class="tab" data-active-tab="tab_2"><span>اطلاعات اضافی</span></li>
+                        <li class="tab" data-active-tab="tab_3"><span> نظرات</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row dir_rtl">
+            <div class="col">
+
+                <!-- Tab Description -->
+
+                <div id="tab_1" class="tab_container active">
+                    <div class="row">
+                        
+                        <div class="col-lg-5 desc_col">
+                            <div class="tab_title">
+                                <h4>محصولات مرتبط</h4>
+                            </div>
+                            {% for p in related %}
+                            {% if forloop.counter|divisibleby:2 %}
+                            <div class="tab_text_block">
+                                <a href="{{p.get_absolute_url}}"><h2>{{p.title}}</h2></a>
+                                <p>{{p.description}}</p>
+                            </div>
+                            <div class="tab_image">
+                                <img src="{{p.image.url}}" alt="">
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-5 offset-lg-2 desc_col">
+                            {% for p in related %}
+                            {% if not forloop.counter|divisibleby:2 %}
+                            <div class="tab_image">
+                                <img src="{{p.image.url}}" alt="">
+                            </div>
+                            <div class="tab_text_block">
+                                <a href="{{p.get_absolute_url}}"><h2>{{p.title}}</h2></a>
+                                <p>{{p.description}}</p>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Additional Info -->
+
+                <div id="tab_2" class="tab_container">
+                    <div class="row">
+                        <div class="col additional_info_col">
+                            <div class="tab_title additional_info_title">
+                                <h4>اطلاعات اضافی</h4>
+                            </div>
+                            {% for attr in attrs %}
+                            <p>{{attr.title}}:<span>{{attr.attr}}</span></p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Reviews -->
+
+                <div id="tab_3" class="tab_container">
+                    <div class="row">
+
+                        <!-- User Reviews -->
+
+                        <div class="col-lg-6 reviews_col">
+                            <div class="tab_title reviews_title">
+                                <h4> نظرات</h4>
+                            </div>
+
+                            <!-- User Review -->
+                            {% for comment in comments %}
+                            <div class="user_review_container d-flex flex-column flex-sm-row">
+                                <div class="user">
+                                    <div class="user_pic">
+                                        <img class="user_default_profile" src="{{comment.profile.url}}" alt="">
+                                    </div>
+                                    <div class="user_rating">
+                                        <ul class="star_rating">
+                                            {% for i in range %}
+                                                {% if forloop.counter <= comment.rate %}
+                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                                {% endif %}
+                                                {% if forloop.counter > comment.rate %}
+                                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="review">
+                                    <div class="review_date">{{comment.date}}</div>
+                                    <div class="user_name">{{comment.name}}</div>
+                                    <p>{{comment.massage}}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Add Review -->
+
+                        <div class="col-lg-6 add_review_col">
+
+                            <div class="add_review">
+                                {% if request.user.is_authenticated %}
+                                <form id="review_form" method="post">
+                                    {% csrf_token %}
+                                    {{commentform.product_id}}
+                                    {{commentform.date}}
+                                    <div>
+                                        <h1>ارسال نظر</h1>
+                                        {{commentform.name}}
+                                        {% for e in commentform.name.errors %}
+                                        <p style="color: red;">{{ e }}</p>
+                                        {% endfor %}
+                                        {{commentform.email}}
+                                        {% for e in commentform.email.errors %}
+                                        <p style="color: red;">{{ e }}</p>
+                                        {% endfor %}
+                                        {% comment %} <input id="review_name" class="form_input input_name" type="text" name="name" placeholder="نام*" required="required" data-error="Name is required.">
+                                        <input id="review_email" class="form_input input_email" type="email" name="email" placeholder="ایمیل*" required="required" data-error="Valid email is required."> {% endcomment %}
+                                    </div>
+                                    <div>
+                                        <h1>نظر شما :</h1>
+                                        <ul class="user_star_rating" id="star_rating">
+                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                        </ul>
+                                        {{commentform.massage}}
+                                        {% for e in commentform.massage.errors %}
+                                        <p style="color: red;">{{ e }}</p>
+                                        {% endfor %}
+                                        {% comment %} <textarea id="review_message" class="input_review" name="message"  placeholder="نظر شما" rows="4" required data-error="Please, leave us a review."></textarea> {% endcomment %}
+                                    </div>
+                                    {{commentform.rate}}
+                                    {% comment %} <input type="text" name="kobs" id="ratingStars"> {% endcomment %}
+                                    <div class="text-left text-sm-right">
+                                        <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit" onclick= sumbitOpinion()>ارسال</button>
+                                    </div>
+                                </form>
+                                {% endif %}
+                                {% if not request.user.is_authenticated %}
+                                <form id="review_form" method="post">
+                                    {% csrf_token %}
+                                    {{commentform.product_id}}
+                                    {{commentform.date}}
+                                    <div>
+                                        <h1>ارسال نظر</h1>
+                                        {{commentform.name}}
+                                        {% for e in commentform.name.errors %}
+                                        <p style="color: red;">{{ e }}</p>
+                                        {% endfor %}
+                                        {{commentform.email}}
+                                        {% for e in commentform.email.errors %}
+                                        <p style="color: red;">{{ e }}</p>
+                                        {% endfor %}
+                                        {% comment %} <input id="review_name" class="form_input input_name" type="text" name="name" placeholder="نام*" required="required" data-error="Name is required.">
+                                        <input id="review_email" class="form_input input_email" type="email" name="email" placeholder="ایمیل*" required="required" data-error="Valid email is required."> {% endcomment %}
+                                    </div>
+                                    <div>
+                                        <h1>نظر شما :</h1>
+                                        <ul class="user_star_rating">
+                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                        </ul>
+                                        {{commentform.massage}}
+                                        {% for e in commentform.massage.errors %}
+                                        <p style="color: red;">{{ e }}</p>
+                                        {% endfor %}
+                                        {% comment %} <textarea id="review_message" class="input_review" name="message"  placeholder="نظر شما" rows="4" required data-error="Please, leave us a review."></textarea> {% endcomment %}
+                                    </div>
+                                    {{commentform.rate}}
+                                    {% comment %} <input type="text" name="kobs" id="ratingStars"> {% endcomment %}
+                                    <div class="text-left text-sm-right">
+                                        <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300 myKiramTooPayam" value="Submit">ارسال</button>
+                                    </div>
+                                </form>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% render_partial 'Resume_shop.views.footer_rules' %}
+{% endblock %}
+
+{% block refrence_footer %}
+<script>
+    
+    function sumbitOpinion(){
+		var stars = document.getElementById('star_rating').children;
+        var count = 0;
+        for (var i = 0; i < stars.length; i++){
+            console.log(stars);
+            if(stars[i].firstChild.className.includes("fa-star-o"))
+            {count++;}
+                
+        }
+        count = 5-count;
+		document.getElementById("ratingStars").value = count;
+
+	}
+
+    document.getElementById("review_submit").addEventListener("click", getQaunt);
+
+    function getQaunt(){
+        kobs =  document.getElementById('quantity_value').innerHTML;
+        document.getElementById('kobs_tracker').value = kobs;
+        console.log(document.getElementById('kobs_tracker').value);
+
+    };
+</script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/jquery-ui-1.12.1.custom/jquery-ui.js' %}"></script>
+<script src="{% static 'js/single_custom.js' %}"></script>
+{% endblock %}

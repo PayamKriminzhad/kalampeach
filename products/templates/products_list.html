@@ -1,0 +1,200 @@
+{% extends 'shared/_Mainlayout.html' %}
+{% load render_partial %}
+{% load static %}
+
+{% block refrence_header %}
+<title>محصولات</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Colo Shop Template">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/jquery-ui-1.12.1.custom/jquery-ui.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/categories_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/categories_responsive.css' %}">
+<link rel="stylesheet" href="{% static 'styles/custom.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container product_section_container">
+    {% for message in messages %}
+    <div class="alert {{message.tags}}">{{message}}</div>
+    {% endfor %}
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center dir_rtl">
+                <ul>
+                    <li><a href="/">خانه</a></li>
+                    <li class="active"><a href="/products"><i class="fa fa-angle-left" aria-hidden="true"></i>محصولات</a></li>
+                </ul>
+            </div>
+
+            <!-- Sidebar -->
+
+            <div class="sidebar">
+                <div class="sidebar_section">
+                    {% render_partial 'products.views.products_categories_partial' url=request.build_absolute_uri %}
+                </div>
+
+                {% render_partial 'products.views.price_range_partial' url=request.build_absolute_uri%}
+
+                <!-- Sizes -->
+                {% comment %} <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>سایزبندی</h5>
+                    </div>
+                    <ul class="checkboxes dir_rtl">
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>S</span></li>
+                        <li class="active"><i class="fa fa-square" aria-hidden="true"></i><span>M</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>L</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>XL</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>XXL</span></li>
+                    </ul>
+                </div> {% endcomment %}
+
+                <!-- Color -->
+                {% comment %} <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>رنگ بندی</h5>
+                    </div>
+                    <ul class="checkboxes dir_rtl">
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>مشکی</span></li>
+                        <li class="active"><i class="fa fa-square" aria-hidden="true"></i><span>صورتی</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>سفید</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>ابی</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>نارنجی</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>سبز</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>بنفش</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>خاکستری</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>کرمی</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>قهوه ای</span></li>
+                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>زرد</span></li>
+                    </ul>
+                    <div class="show_more">
+                        <span><span>+</span>موارد بیشتر</span>
+                    </div>
+                </div> {% endcomment %}
+
+            </div>
+
+            <!-- Main Content -->
+
+            <div class="main_content">
+
+                <!-- Products -->
+
+                <div class="products_iso">
+                    <div class="row">
+                        <div class="col">
+
+                            <!-- Product Sorting -->
+
+                            <div class="product_sorting_container product_sorting_container_top dir_rtl">
+                                {% comment %} <ul class="product_sorting">
+                                    <li>
+                                        <span class="type_sorting_text">ترتیب پیش فرض</span>
+                                        <i class="fa fa-angle-down"></i>
+                                        <ul class="sorting_type">
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>ترتیب پیش فرض</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "price" }'><span>قیمت</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "name" }'><span>نام محصول</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span>نمایش</span>
+                                        <span class="num_sorting_text">6</span>
+                                        <i class="fa fa-angle-down"></i>
+                                        <ul class="sorting_num">
+                                            <li class="num_sorting_btn"><span>6</span></li>
+                                            <li class="num_sorting_btn"><span>12</span></li>
+                                            <li class="num_sorting_btn"><span>24</span></li>
+                                        </ul>
+                                    </li>
+                                </ul> {% endcomment %}
+                                <div class="pages d-flex flex-row align-items-center">
+                                    <div class="page_current">
+                                        <span>{{page_obj.number}}</span>
+                                        <ul class="page_selection">
+                                            {% for page in paginator.page_range %}
+                                            <li><a href="?page={{page}}">{{page}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="page_total"><span>of</span> {{page_obj.paginator.num_pages}}</div>
+                                    {% if page_obj.has_next %}
+                                    <div id="next_page" class="page_next"><a href="?page={{page_obj.next_page_number}}"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a></div>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                            <!-- Product Grid -->
+
+                            <div class="product-grid">
+                            {% for product in page_obj %}
+                                {% comment %} {% include 'product_item_component.html' with product=product %} {% endcomment %}
+                                {% render_partial 'products.views.product_component' product=product %}
+                            {% endfor %}
+                            </div>
+
+                            <!-- Product Sorting -->
+
+                            <div class="product_sorting_container product_sorting_container_bottom clearfix dir_rtl">
+                                <ul class="product_sorting">
+                                    <li>
+                                        <span>نمایش :</span>
+                                        <span class="num_sorting_text">04</span>
+                                        <i class="fa fa-angle-down"></i>
+                                        <ul class="sorting_num">
+                                            <li class="num_sorting_btn"><span>01</span></li>
+                                            <li class="num_sorting_btn"><span>02</span></li>
+                                            <li class="num_sorting_btn"><span>03</span></li>
+                                            <li class="num_sorting_btn"><span>04</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <span class="showing_results">نمایش نتایج 1 - 3 از 12</span>
+                                <div class="pages d-flex flex-row align-items-center">
+                                    <div class="page_current">
+                                        <span>{{page_obj.number}}</span>
+                                        <ul class="page_selection">
+                                            {% for page in paginator.page_range %}
+                                            <li><a href="?page={{page}}">{{page}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="page_total"><span>of</span> {{page_obj.paginator.num_pages}}</div>
+                                    {% if page_obj.has_next %}
+                                    <div id="next_page_1" class="page_next"><a href="?page={{page_obj.next_page_number}}"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a></div>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% render_partial 'Resume_shop.views.footer_rules' %}
+{% endblock %}
+
+{% block refrence_footer %}
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/jquery-ui-1.12.1.custom/jquery-ui.js' %}"></script>
+<script src="{% static 'js/categories_custom.js' %}"></script>
+{% endblock %}

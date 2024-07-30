@@ -1,0 +1,107 @@
+{% extends 'shared/_Mainlayout.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block refrence_header %}
+<title>{{blog.title}}</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Colo Shop Template">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/themify-icons/themify-icons.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/jquery-ui-1.12.1.custom/jquery-ui.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/single_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/single_responsive.css' %}">
+<link rel="stylesheet" href="{% static 'styles/custom.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Tabs -->
+
+<div class="tabs_section_container">
+
+    <div class="container">
+        <div class="row dir_rtl">
+            <div class="col">
+                <div class="tabs_container">
+                    <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+                        <li class="tab active" data-active-tab="tab_1"><span>محصولات مرتبط</span></li>
+                        <li class="tab" data-active-tab="tab_2"><span>اطلاعات اضافی</span></li>
+                        <li class="tab" data-active-tab="tab_3"><span> نظرات</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row dir_rtl">   
+            <div class="col">
+
+                <!-- Tab Description -->
+
+                <div id="tab_1" class="tab_container active">
+                    <div class="row">
+                        <div class="col-lg-9 offset-lg-2 desc_col">
+                            {% for p in pages %}
+                            {% if p.image.url is not None %}
+                            <div class="tab_image">
+                                <img src="{{p.image.url}}" alt="">
+                            </div>
+                            {% endif %}
+                            <div class="tab_text_block">
+                                {% if p.title is not None %}
+                                <h2>{{p.title}}</h2>
+                                {% endif %}
+                                <p>{{p.description}}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% render_partial 'Resume_shop.views.footer_rules' %}
+{% endblock %}
+
+{% block refrence_footer %}
+<script>
+    
+    function sumbitOpinion(){
+		var stars = document.getElementById('star_rating').children;
+        var count = 0;
+        for (var i = 0; i < stars.length; i++){
+            console.log(stars);
+            if(stars[i].firstChild.className.includes("fa-star-o"))
+            {count++;}
+                
+        }
+        count = 5-count;
+		document.getElementById("ratingStars").value = count;
+
+	}
+
+    document.getElementById("review_submit").addEventListener("click", getQaunt);
+
+    function getQaunt(){
+        kobs =  document.getElementById('quantity_value').innerHTML;
+        document.getElementById('kobs_tracker').value = kobs;
+        console.log(document.getElementById('kobs_tracker').value);
+
+    };
+</script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/jquery-ui-1.12.1.custom/jquery-ui.js' %}"></script>
+<script src="{% static 'js/single_custom.js' %}"></script>
+{% endblock %}

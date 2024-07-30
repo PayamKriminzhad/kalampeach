@@ -1,0 +1,31 @@
+﻿{% load static %}
+{% load render_partial %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% block refrence_header %}
+{% endblock %}
+</head>
+
+<body>
+
+<div class="super_container">
+
+	<!-- Header -->
+
+    {% render_partial 'Resume_shop.views.header' %}
+
+    {% block content %}
+    {% endblock%}
+
+	<!-- Newsletter -->
+
+    {% render_partial 'footer' %}
+
+</div>
+
+{% block refrence_footer %}
+{% endblock %}
+</body>
+
+</html>

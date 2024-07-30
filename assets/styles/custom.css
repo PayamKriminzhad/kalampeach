@@ -1,0 +1,34 @@
+.dir_rtl{
+    direction: rtl;
+}
+
+@font-face {
+    font-family: 'vazir';
+    src: url('vazir.eot') format('eot'), /* IE6–8 */ url('Vazir.woff') format('woff'), /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('Vazir.ttf') format('truetype'); /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+ .vazir , * {
+    font-family: vazir, Arial, Helvetica, sans-serif;
+}
+
+p,h1,h2,h3,h4,h5,h6,a{
+    font-family: vazir, Arial, Helvetica, sans-serif;
+}
+
+
+.logo_image{
+    width: 50%;
+}
+.logo_container{
+    right: -50px !important;
+}
+@media only screen and (max-width: 479px) {
+    .logo_image{
+        width: 30%;
+    }
+}
+@media only screen and (max-width: 395px){
+    .logo_container{
+        right: -85px !important;
+    }
+}

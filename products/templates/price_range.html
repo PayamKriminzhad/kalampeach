@@ -1,0 +1,14 @@
+﻿<!-- Price Range Filtering -->
+<form id="egamind" action="{{url}}" method="get">
+    <div class="sidebar_section">
+        <div class="sidebar_title">
+            <h5>محدودیت بر اساس قیمت</h5>
+        </div>
+        <p>
+            <input name="f" type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <input value="{{value}}" type="hidden" id="ali">
+        </p>
+        <div id="slider-range"></div>
+        <div class="filter_button"><span onclick="egamind.submit()">اعمال محدودیت</span></div>
+    </div>
+</form>
