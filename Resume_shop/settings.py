@@ -152,7 +152,7 @@ else:
 
 MEDIA_URL = '/media/'
 if DEBUG:
-    MEDIA_ROOT = 'media/'
+    MEDIA_ROOT = "static_cdn/media_root/"
 else:
     MEDIA_ROOT = "/resume_shop/static_files/media/"
 
