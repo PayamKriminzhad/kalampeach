@@ -74,11 +74,12 @@
                 <div class="original_price">{% if product.discount > 0 %}{{product.price}} تومان{% endif %}</div>
                 <div class="product_price">{{product.final_price}} تومان</div>
                 <ul class="star_rating">
+                    {% for x in range_product_rate_1 %}
                     <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    {% endfor %}
+                    {% for x in range_product_rate_2 %}
                     <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                    {% endfor %}
                 </ul>
                 {% comment %} <div class="product_color">
                     <span>انتخاب رنگ</span>

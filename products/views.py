@@ -149,6 +149,7 @@ def product_detail(request, *args, **kwargs):
             messages.success(request, 'نظر شما با موفقیت ثبت شد')
             # return redirect(f'{product.get_absolute_url()}')
     comments = product.productcomment_set.all()
+    product_rate = product.get_average_rate()
 
     like_form = UserLikeForm(request.POST or None, initial={'product':product.id})
 
@@ -163,7 +164,9 @@ def product_detail(request, *args, **kwargs):
         'liked':False,
         'like_form':like_form,
         'attrs':attrs,
-        'range':range(5)
+        'range':range(5),
+        'range_product_rate_1': range(product_rate),
+        'range_product_rate_2': range(5 - product_rate)
     }
     if request.user.is_authenticated:
         liked = dashboard.liked.filter(product_id=product.id).first()

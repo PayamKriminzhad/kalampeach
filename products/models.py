@@ -98,6 +98,17 @@ class Product(models.Model):
     def get_absolute_url(self):
         return f"/products/{self.id}/{self.title.replace(' ', '-')}"
 
+    def get_average_rate(self):
+        comments = self.productcomment_set.all()
+        print(len(comments))
+        if len(comments)==0:
+            return 3
+        sum = 0
+        for comment in comments:
+            sum += comment.rate
+        return int(sum / len(comments))
+
+
 def discount(sender, instance, *args, **kwargs):
     instance.price_discount=instance.final_price()
 
